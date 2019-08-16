@@ -1,0 +1,8 @@
+{
+  "name": "SOFS",
+  "version": "1.0.0",
+  "dependencies": {
+    "cheerio": "latest",
+    "request-promise": "latest"
+  }
+}
