@@ -17,25 +17,28 @@ http://pesquisa.bvs.br/aps/?output=site&lang=pt&from=101&sort=&format=summary&co
 
  */
 
+
+
 const rp= require('request-promise');
 const url= 'http://pesquisa.bvs.br/aps/?output=site&lang=pt&from=1&sort=&format=summary&count=100&fb=&page=1&filter%5Bdb%5D%5B%5D=SOF&q=diabetes&index=tw';
 const $= require('cheerio');
 
+const sofsUrl=[];
 
 rp(url).then(function (html) {
 
-    const sofsUrl=[];
 
-    const url= sofsUrl.push({"Links das sofs": $('.user-actions', html).find('a').toString()});
+    for (var i=0; i < 99; i++) {
+
+        sofsUrl.push({"Links das sofs": $('.record', html).find('a').attr('href').trim().split(" ")});
+    }
+
+
 
     console.log(sofsUrl);
 
-  /*  for(let i=0; i< 1; i++) {
 
-      sofsUrl.push($('#.user-actions', html).find('a')[i]);
-    }
-*/
-   // console.log(sofsUrl)
+
 
 }).catch(function (err) {
     //tratar erro
