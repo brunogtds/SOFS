@@ -28,9 +28,9 @@ const sofsUrl=[];
 rp(url).then(function (html) {
 
 
-    for (var i=0; i < 99; i++) {
+    for (let i=0; i < 300; i++) {
 
-        sofsUrl.push({"Links das sofs": $('.record', html).find('a').attr('href').trim().split(" ")});
+        sofsUrl.push({"Links das sofs": $('.record', html).find('a')[i].attribs.href.trim().split(" ")});
     }
 
 
@@ -41,6 +41,7 @@ rp(url).then(function (html) {
 
 
 }).catch(function (err) {
-    //tratar erro
+    console.log("Algo deu errado");
+    return err;
 });
 
