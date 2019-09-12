@@ -7,28 +7,54 @@ var url = "mongodb://localhost:27017/";  //porta que o  mongodb está rodando
 
 
 
-MongoClient.connect(url, {useNewUrlparser: true},function (err, db) {
+MongoClient.connect(url, function (err, db) {
 
     if (err) throw err;
 
-
     const database= db.db("SOFS");
 
-    //lista de coleções disponíveis
-     database.listCollections().toArray().then((docs) => {
+    //Mapeamento completo CIAP2 -> CID-10
+
+    database.collection('Sofs').aggregate([
+        { $lookup:
+                {
+                    from: 'Cid10Ciap2',
+                    localField: 'refCid',
+                    foreignField: '_id',
+                    as: 'map_Cid10Ciap2'
+                }
+        }
+    ]).toArray(function(err, res) {
+        if (err) throw err;
+        console.log(JSON.stringify(res));
+        database.close();
+    });
+
+
+    //Lista de coleções disponíveis no banco
+
+   /*  database.listCollections().toArray().then((docs) => {
          console.log("Coleções disponíveis:");
          docs.forEach((doc, idx, array) => {console.log(doc.name) });
      }). finally(() => {
          db.close();
-     })
+     }) */
+
+   //Consultas mapeamento CIAP-2 -> CID-10
 
    /* var sof= database.collection("Sofs");
-    var cid= database.collection("Cid10Ciap2")
-    sof.findOne({idSof: "sof-8"}, {refCid: 0}, function (err, result) {
+    var cid= database.collection("Cid10Ciap2");
+    sof.findOne({idSof: "sof-8"}, {refCid: 0}, function (err, cid) {
         if (err) throw err;
-        cid.find({"_id": {$in: result.refCid}, refCid:result.refCid}).toArray(function (err, other) {
+
+        sof.find({_id: {$in: cid.refCid}, refCid:cid._id}).toArray(function (err, other) {
             if (err) throw err;
         })
-    })*/
+    })
+    */
+
+
+
+
 
 });
