@@ -1,4 +1,4 @@
-#Mapeamento de SOFs
+# Mapeamento de SOFs
 
 Utilização de mapeamentos entre a SNOMED CT, CID-10 e CIAP-2 para enriquecimento terminológico em Segundas Opiniões Formativas. 
 
